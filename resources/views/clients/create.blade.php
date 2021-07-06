@@ -43,7 +43,7 @@
                     <div class="col-sm-6">
                         <label class="form-label">Attachment Billing</label>
                         <div class="form-line">
-                             <input type="file" name="attach_email" class="form-control" id="attach_email" autocomplete="off">
+                             <input type="file" name="attach_email" class="form-control" id="attach_email" autocomplete="off" required>
                         </div>
                     </div>
                 </div>

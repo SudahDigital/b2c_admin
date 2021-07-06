@@ -16,12 +16,12 @@ use App\Clients;
 class ClientsController extends Controller
 {
     public function __construct(){
-        $this->middleware(function($request, $next){
+        /*$this->middleware(function($request, $next){
             
             if(Gate::allows('manage-banner')) return $next($request);
 
             abort(403, 'Anda tidak memiliki cukup hak akses');
-        });
+        });*/
     }
     /**
      * Display a listing of the resource.
@@ -62,11 +62,16 @@ class ClientsController extends Controller
         $filebilling = $request->file('attach_email');
 
         $email_encrypt = Crypt::encrypt($email_verify);
-        $data = array('email_verify'=>$email_encrypt);
+        $data = array('email_verify'=>$email_encrypt, 'name' => $name);
         $databilling = array('file'=>$filebilling);
 
-	    \Mail::to($email_verify)->send(New SendMail($data));
-	    \Mail::to($email_billing)->send(New SendMailBilling($databilling));
+	    if($email_verify!=''){
+            \Mail::to($email_verify)->send(New SendMail($data));
+        } 
+
+        if($email_billing!=''){
+	       \Mail::to($email_billing)->send(New SendMailBilling($databilling));
+        }
 
         return redirect()->route('clients.create')->with('status','New Client Succesfully Created');
     }
@@ -127,7 +132,7 @@ class ClientsController extends Controller
         		$sts .= true;
 
         		$email_encrypt = Crypt::encrypt($email_verify);
-	        	$data = array('email_verify'=>$email_encrypt);
+	        	$data = array('email_verify'=>$email_encrypt, 'name' => $name);
 
 		    	\Mail::to($email_verify)->send(New SendMail($data));
 	        }
@@ -196,5 +201,9 @@ class ClientsController extends Controller
             return view('auth.notif_password',['categories'=>$categories])->with('error','User Failed Create');
         }
         
+    }
+
+    public function link_login(Request $request){
+        return "linkurl";
     }
 }

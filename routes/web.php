@@ -91,6 +91,7 @@ Route::get('/verify_password', function () {
 });
 
 Route::post('/save_password', 'ClientsController@savePassword')->name('client.savePassword');
+Route::get('/link_login', 'ClientsController@link_login')->name('client.linkLogin');
 
 
 

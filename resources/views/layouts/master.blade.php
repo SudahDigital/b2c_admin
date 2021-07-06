@@ -107,7 +107,7 @@
             <div class="user-info" style="background: #336699">
                 <div class="image">
                     @if(\Auth::user())
-                    <img src="{{asset('storage/'.Auth::user()->avatar)}}" width="48" height="48" alt="User" />
+                    <img src="{{asset((Auth::user()->avatar) ? 'storage/'.Auth::user()->avatar : 'assets/image/avatar_default.png')}}" width="48" height="48" alt="User" /> 
                     @endif
                 </div>
                 <div class="info-container">

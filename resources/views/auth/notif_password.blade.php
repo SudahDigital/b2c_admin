@@ -8,6 +8,7 @@
                 <h1>PASSWORD SUCCESSFULLY SAVED</h1>
                 <div class="underline-title2"></div>
                 <br><br>
+                <p id="label-url">If you want to login, click <a href="{{ route('password.request') }}" style="color: red; text-decoration: underline;">here.</a></p>
               </div>
             </div>
         </div>

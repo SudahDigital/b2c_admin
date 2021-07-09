@@ -184,26 +184,27 @@ class ClientsController extends Controller
     	$new_user = new \App\User;
         $new_user->name = 'Super Admin';
         $new_user->email = $email_decrypt;
-        $new_user->password = $password_encrypt;
+        $new_user->password = \Hash::make($password);
         $new_user->roles = '["SUPERADMIN"]';
 
-        $sql = DB::select("SELECT client_id FROM clients WHERE client_email_verify = '".$email_decrypt."'");
+        $sql = DB::select("SELECT client_id, client_slug FROM clients WHERE client_email_verify = '".$email_decrypt."'");
         foreach ($sql as $key => $value) {
         	$new_user->client_id = $value->client_id;
+            $client_slug = $value->client_slug;
         }
 
         $categories = \App\Category::get();
 
         $new_user->save();
         if ( $new_user->save()){
-            return view('auth.notif_password',['categories'=>$categories])->with('status','User Succsessfully Created');
+            return view('auth.notif_password',['categories'=>$categories, 'client_slug'=>$client_slug])->with('status','User Succsessfully Created');
         }else{
-            return view('auth.notif_password',['categories'=>$categories])->with('error','User Failed Create');
+            return view('auth.notif_password',['categories'=>$categories, 'client_slug'=>$client_slug])->with('error','User Failed Create');
         }
         
     }
 
     public function link_login(Request $request){
-        return "linkurl";
+        return "http://127.0.0.1:8000/".$request->client_slug."/admin";
     }
 }
